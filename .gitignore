@@ -1,7 +1,8 @@
 # Compiled class file
 *.class
 .vscode/
-selenium/target
+target/
+selenium/target/
 
 # Log file
 *.log
