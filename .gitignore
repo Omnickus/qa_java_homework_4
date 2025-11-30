@@ -3,7 +3,8 @@
 .vscode/
 .idea/
 target/
-selenium/target/
+myproject/target/
+Ответы.txt
 
 # Log file
 *.log

@@ -1,5 +1,3 @@
-package otus.homework;
-
 import java.time.Duration;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +10,6 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -20,15 +17,11 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class DriverTest {
 
     static WebDriver driver;
-    private WebDriverWait wait;
 
-    private String baseUrl = ""; // Укажите начальный URL через
-                                 // -DbaseUrl=https://otus.home.kartushin.su/training.html
-    private String browser = ""; // Укажите какой браузер использовать через -Dbrowser=edge
+    private String baseUrl = ""; // Укажите начальный URL через -DbaseUrl=https://otus.home.kartushin.su/training.html
 
     // Конфигурация ожиданий
     private final Duration IMPLICIT_WAIT = Duration.ofSeconds(10);
-    private final Duration EXPLICIT_WAIT = Duration.ofSeconds(15);
     private final Duration PAGE_LOAD_TIMEOUT = Duration.ofSeconds(30);
 
     @BeforeAll
@@ -58,7 +51,7 @@ public class DriverTest {
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--start-maximized");
+            options.addArguments(System.getProperty("launchFlag", "--start-maximized")); // --kiosk --headless --start-maximized
             driver = new EdgeDriver(options);
         }
         if (System.getProperty("browser").equals("chrome")) {
@@ -66,7 +59,7 @@ public class DriverTest {
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--start-maximized");
+            options.addArguments(System.getProperty("launchFlag", "--start-maximized")); // --kiosk --headless --start-maximized
             driver = new ChromeDriver(options);
         }
         // НАСТРОЙКА ОЖИДАНИЙ
@@ -82,17 +75,13 @@ public class DriverTest {
         driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT);
         // Таймаут загрузки страницы
         driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT);
-        // Таймаут для выполнения скриптов
-        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
-        // ЯВНОЕ ОЖИДАНИЕ - для создания wait объекта
-        wait = new WebDriverWait(driver, EXPLICIT_WAIT);
     }
 
     @AfterEach
     public void close_and_quit() {
         if (driver != null) {
             driver.close();
-            // driver.quit();
+            driver.quit();
         }
     }
 
