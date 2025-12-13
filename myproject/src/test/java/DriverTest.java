@@ -38,8 +38,7 @@ public class DriverTest {
                 }
             } catch (Exception e) {
                 System.out.println(e);
-                // Указываем путь к драйверу по дефолту вручную
-                System.setProperty("webdriver.edge.driver","C:\\Users\\Omnic\\Documents\\Курсы\\ОТУС\\edgedriver_win64\\msedgedriver.exe");
+                System.exit(1);
             }
         }
     }
